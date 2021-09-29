@@ -1,0 +1,26 @@
+version: "3"
+
+networks:
+  default:
+    external:
+      name: cw_net
+
+services:
+  cw-httpd:
+    container_name: cw-httpd
+    build:
+      context: ./httpd/
+      dockerfile: Dockerfile
+    ports:
+      - "8003:8002"
+      - "8002:8002"
+      - "80:80"
+    volumes:
+      - ../../dock-roboto/flow-business:/usr/local/apache2/htdocs/flow-business:cached
+      #- ../../dock-roboto/flowbusiness_co:/usr/local/apache2/htdocs/flowbusiness_co:delegated
+      - ../../dock-roboto/cwnetworks.com:/usr/local/apache2/htdocs/cwnetworks.com:delegated
+      - ../../dock-roboto/cwbusiness.com:/usr/local/apache2/htdocs/cwbusiness.com:delegated
+      - ./httpd/logs:/usr/local/apache2/logs/
+      #- ./conf/httpd.conf:/usr/local/apache2/conf/httpd.conf
+      - ./httpd/sites-enabled:/usr/local/apache2/sites-enabled:delegated
+      - ./httpd/sites-enabled:/usr/local/apache2/sites-available:delegated
